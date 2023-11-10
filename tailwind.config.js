@@ -6,7 +6,11 @@ export default {
     "./src/**/*.{js,ts,jsx,tsx,vue}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        'Spartan': ['"Spartan"', 'sans-serif'],
+      },
+    },
   },
   variants: {
     extend: {
