@@ -5,7 +5,7 @@ import Footer from './components/Footer.vue'
 </script>
 
 <template>
-  <div class="">
+  <div class="bg-[#effafa]">
     <Title></Title>
     <Main></Main>
     <!-- <Footer></Footer> -->
