@@ -29,6 +29,7 @@ const clearFilter = () => {
     jobList.value = data
     secachJob.value = []
 }
+ const createLogo = (logo) => new URL(`${logo}`, import.meta.url).href;
 </script>
 <template>
 <div class="w-full py-[8px] m-auto" :class="{'h-[80vh]' : jobList.length <= 3 }">
