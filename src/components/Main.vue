@@ -13,6 +13,18 @@ const filterjobList = (item) => {
         }
     })
 }
+const deleteFilter = (item) => {
+    secachJob.value = secachJob.value.filter((job) => job !== item)
+    if (secachJob.value.length > 0) {
+        jobList.value = data.filter((job) => {
+            return secachJob.value.every((item) => {
+                return job.role.includes(item) || job.level.includes(item) || job.languages.includes(item) || job.tools.includes(item);
+            });
+        });
+    } else {
+        jobList.value = data;
+    }
+}
 const clearFilter = () => {
     jobList.value = data
     secachJob.value = []
@@ -22,7 +34,8 @@ const clearFilter = () => {
 <div class="w-full py-[8px] m-auto" :class="{'h-[80vh]' : jobList.length <= 3 }">
     <div v-if="secachJob.length !== 0" class="bg-white rounded-md w-full h-20 sticky z-10 p-4 -mt-[3.3em] mb-8 shadow-xl flex justify-between items-center px-12 font-mono  max-w-[1110px] m-auto shadow-[#d2ecec]">
         <div class="flex">
-            <div v-for="item in secachJob" class="bg-[#eef6f6] text-[#5ba4a4] hover:bg-[#5ba4a4] hover:text-[#eef6f6] font-bold px-3 py-1 h-8 rounded mr-2" >
+            <div v-for="item in secachJob" @click="deleteFilter(item)" 
+                class="bg-[#eef6f6] text-[#5ba4a4] hover:bg-[#5ba4a4] hover:text-[#eef6f6] font-bold px-3 py-1 h-8 rounded mr-2" >
                 {{item}}
             </div>
         </div>
@@ -30,12 +43,14 @@ const clearFilter = () => {
             Clear
         </button>
     </div>
-    <div v-for="(item, index) in jobList" class="my-8 bg-white h-36 rounded-md shadow-xl shadow-[#d2ecec] max-w-[1110px] m-auto font-Spartan" > 
-        <div class="grid grid-cols-7 place-content-center h-full">
-            <div class="flex justify-center items-center ">
-                <img :src="item.logo" alt="" class=""> 
+    <div v-for="(item, index) in jobList" 
+        :class="{'border-l-4  border-[#5ba4a4]': index === 0 || index === 1 }"
+        class="my-8 bg-white h-auto md:h-36 rounded-md shadow-xl shadow-[#d2ecec] w-[94%] xl:max-w-[1110px] m-auto font-Spartan" > 
+        <div class="md:grid grid-cols-7 place-content-center h-full">
+            <div class="md:flex justify-center items-center relative">
+                <img :src="item.logo" alt="" class="w-[15%] md:w-auto absolute md:static -top-6 md:top-0 left-3 md:left-3"> 
             </div>
-            <div class="font-Spartan grid grid-rows-3 place-items-start  col-span-2">
+            <div class="h-36 md:h-auto pt-12 md:pt-0 px-5 md:ml-0 font-Spartan md:grid md:grid-rows-3 md:place-items-start  col-span-2">
                 <div class="text-[#5ba4a4] font-bold text-md"> {{ item.company }} 
                     <span v-if=" index === 0 || index === 1 || index === 2 "
                         class=" font-normal text-xs text-center bg-[#5ba4a4] text-white rounded-full py-1 px-2" >
@@ -49,7 +64,7 @@ const clearFilter = () => {
                 <h1 class="text-black hover:text-[#5ba4a4] font-normal text-xl"> {{ item.position }}</h1>
                 <div class=" text-md text-[#7b8e8e] text-md">{{ item.postedAt }} ． {{ item.contract }} ． {{ item.location }}</div>
             </div>
-            <div class="flex flex-wrap col-span-3 justify-center items-center col-start-5 place-items-center">
+            <div class="h-32 md:h-auto border-t md:border-none mx-2 md:mx-0 border-gray-800 pt-2 md:pt-3 flex flex-wrap col-span-3 md:justify-center md:items-center col-start-5 md:place-items-center">
                 <div class="bg-[#eef6f6] text-[#5ba4a4] hover:bg-[#5ba4a4] hover:text-[#eef6f6] font-bold px-3 py-1 h-8 rounded mr-2 cursor-pointer" @click="filterjobList(item.role)">
                     {{item.role}}
                 </div> 
