@@ -2,7 +2,12 @@
 import { ref } from 'vue';
 import data from '../data.json';
 
-const jobList = ref(data)
+const jobList = ref(data.map((item) => {
+    return {
+        ...item,
+        logo: item.logo.replace(/.\/images\//g, '')
+    }
+}))
 const secachJob = ref([])
 const filterjobList = (item) => {
     if(secachJob.value.includes(item))return
@@ -29,7 +34,9 @@ const clearFilter = () => {
     jobList.value = data
     secachJob.value = []
 }
- const createLogo = (logo) => new URL(`${logo}`, import.meta.url).href;
+const createLogo = (logo) => {
+    return new URL(`../assets/images/${logo}`, import.meta.url).href;
+};
 </script>
 <template>
 <div class="w-full py-[8px] m-auto" :class="{'h-[80vh]' : jobList.length <= 3 }">
@@ -49,7 +56,7 @@ const clearFilter = () => {
         class="my-8 bg-white h-auto md:h-36 rounded-md shadow-xl shadow-[#d2ecec] w-[94%] xl:max-w-[1110px] m-auto font-Spartan" > 
         <div class="md:grid grid-cols-7 place-content-center h-full">
             <div class="md:flex justify-center items-center relative">
-                <img :src="item.logo" alt="" class="w-[15%] md:w-auto absolute md:static -top-6 md:top-0 left-3 md:left-3"> 
+                <img :src="createLogo(item.logo)" alt="" class="w-[15%] md:w-auto absolute md:static -top-6 md:top-0 left-3 md:left-3"> 
             </div>
             <div class="h-36 md:h-auto pt-12 md:pt-0 px-5 md:ml-0 font-Spartan md:grid md:grid-rows-3 md:place-items-start  col-span-2">
                 <div class="text-[#5ba4a4] font-bold text-md"> {{ item.company }} 
