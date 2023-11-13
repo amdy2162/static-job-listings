@@ -21,20 +21,27 @@ const filterjobList = (item) => {
 const deleteFilter = (item) => {
     secachJob.value = secachJob.value.filter((job) => job !== item)
     if (secachJob.value.length > 0) {
-        jobList.value = data.filter((job) => {
+        
+        jobList.value = jobList.value.filter((job) => {
             return secachJob.value.every((item) => {
                 return job.role.includes(item) || job.level.includes(item) || job.languages.includes(item) || job.tools.includes(item);
             });
         });
     } else {
-        jobList.value = data;
+        clearFilter()
     }
 }
 const clearFilter = () => {
-    jobList.value = data
+    jobList.value = data.map((item) => {
+            return {
+                ...item,
+                logo: item.logo.replace(/.\/images\//g, '')
+            }
+        });
     secachJob.value = []
 }
 const createLogo = (logo) => {
+    console.log(logo)
     return new URL(`../assets/images/${logo}`, import.meta.url).href;
 };
 </script>
